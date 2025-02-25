@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="140" height="139.405" viewBox="0 0 140 139.405">
+  <g>
+    <ellipse cx="44.806" cy="37.294" rx="34.739" ry="35.294" fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="4"/>
+    <path d="M50.3,17.842H33.765V35.93H50.3a9.045,9.045,0,0,0,0-18.088Z" fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="4"/>
+    <path d="M50.3,35.93H33.765V54.019H50.3a9.046,9.046,0,0,0,0-18.089Z" fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="4"/>
+    <line x1="39.199" y1="11.81" x2="39.199" y2="17.463" fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="4"/>
+    <line x1="48.91" y1="11.81" x2="48.91" y2="17.463" fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="4"/>
+    <line x1="39.199" y1="54.598" x2="39.199" y2="60.251" fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="4"/>
+    <line x1="48.91" y1="54.598" x2="48.91" y2="60.251" fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="4"/>
+    <line x1="28.674" y1="17.842" x2="34.293" y2="17.842" fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="4"/>
+    <line x1="28.674" y1="54.019" x2="34.293" y2="54.019" fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="4"/>
+    <polyline points="26.562 116.864 79.544 77.762 101.164 90.87 135.79 54.019 120.687 54.598" fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="4"/>
+    <line x1="138" y1="70.105" x2="135.79" y2="54.019" fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="4"/>
+    <ellipse cx="15.337" cy="124.055" rx="13.337" ry="13.35" fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="4"/>
+  </g>
+</svg>
