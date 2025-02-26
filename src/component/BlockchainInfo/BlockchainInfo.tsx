@@ -81,14 +81,21 @@ const BlockchainInfo: React.FC<BlockchainInfoProps> = ({ onBack }) => {
           <p className="text-sm text-gray-300 mb-4">
             Retrieves the total number of blocks in the longest blockchain.
           </p>
-          <button
-            onClick={handleGetBlockCount}
-            className="bg-yellow-500 hover:bg-yellow-600 text-gray-900 px-4 py-2 rounded-md transition-colors"
-          >
-            Get Block Count
-          </button>
-          <p>{blockCount}</p>
+          <div className="flex items-center space-x-3">
+            <button
+              onClick={handleGetBlockCount}
+              className="bg-yellow-500 hover:bg-yellow-600 text-gray-900 px-4 py-2 rounded-md transition-colors"
+            >
+              Get Block Count
+            </button>
+            {blockCount !== null && (
+              <span className="bg-gray-700 text-white px-3 py-2 rounded-md text-sm">
+                {blockCount}
+              </span>
+            )}
+          </div>
         </div>
+
 
         {/* Card: Get Best Block Hash */}
         <div className="bg-gray-800 p-4 rounded-lg shadow-lg">
@@ -105,7 +112,14 @@ const BlockchainInfo: React.FC<BlockchainInfoProps> = ({ onBack }) => {
           >
             Get Best Block Hash
           </button>
+          {bestBlockHash && (
+            <p className="bg-gray-700 text-white px-3 py-2 rounded-md text-sm mt-3 break-words">
+              {bestBlockHash}
+            </p>
+          )}
         </div>
+
+
 
         {/* Card: Get Block Hash */}
         <div className="bg-gray-800 p-4 rounded-lg shadow-lg">

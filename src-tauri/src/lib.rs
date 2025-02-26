@@ -56,7 +56,7 @@ fn greet(name: &str) -> String {
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
     let rpc_url = "http://127.0.0.1:18443"; // Replace with your RPC URL
-    let rpc_auth = Auth::CookieFile("/Users/bene/Library/Application Support/Bitcoin/regtest/.cookie".into()); // Replace with your RPC credentials
+    let rpc_auth = Auth::UserPass("bene".to_string(), "bene".to_string()); // Replace with your RPC credentials
     let client = Client::new(rpc_url, rpc_auth).expect("Failed to connect to Bitcoin Core");
     println!("Client: {:?}", client);
 
