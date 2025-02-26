@@ -15,9 +15,14 @@ interface BlockchainInfoProps {
 const BlockchainInfo: React.FC<BlockchainInfoProps> = ({ onBack }) => {
   // State for the forms/inputs that require user input
   const [blockHeight, setBlockHeight] = useState("");
+  const [blockHeight2, setBlockHeight2] = useState("");
   const [address, setAddress] = useState("");
   const [blockCount, setBlockCount] = useState<number | null>(null);
   const [bestBlockHash, setBestBlockHash] = useState<string | null>(null);
+  const [blockHash, setBlockHash] = useState<string | null>(null);
+  const [blockData, setBlockData] = useState<any | null>(null);
+  const [rawMempool, setRawMempool] = useState<string[] | null>(null);
+  const [uptime, setUptime] = useState<number | null>(null);
 
   // Example handlers
   const handleGetBlockCount = async () => {
@@ -40,12 +45,24 @@ const BlockchainInfo: React.FC<BlockchainInfoProps> = ({ onBack }) => {
     }
   };
 
-  const handleGetBlockHash = () => {
-    console.log("Get block hash for height:", blockHeight);
+  const handleGetBlockHash = async () => {
+    // console.log("Get block hash for height:", blockHeight);
+    try {
+      const hash: string = await invoke("get_block_hash", { height: parseInt(blockHeight) });
+      setBlockHash(hash);
+    } catch (error) {
+      console.error("Error fetching block hash: ", error);
+    }
   };
 
-  const handleGetBlock = () => {
-    console.log("Get block for height:", blockHeight);
+  const handleGetBlock = async () => {
+    // console.log("Get block for height:", blockHeight);
+    try {
+      const block: any = await invoke("get_block", { height: parseInt(blockHeight2) });
+      setBlockData(block);
+    } catch (error) {
+      console.error("Error fetching block: ", error);
+    }
   };
 
   const handleGetRawMemPool = () => {
@@ -104,7 +121,7 @@ const BlockchainInfo: React.FC<BlockchainInfoProps> = ({ onBack }) => {
             <h3 className="text-lg font-semibold">Get Best Block Hash</h3>
           </div>
           <p className="text-sm text-gray-300 mb-4">
-            Retrieves the hash of the latest block in the chain.
+            Retrieves the hash of the latest block in the blockchain.
           </p>
           <button
             onClick={handleGetBestBlockHash}
@@ -125,11 +142,13 @@ const BlockchainInfo: React.FC<BlockchainInfoProps> = ({ onBack }) => {
         <div className="bg-gray-800 p-4 rounded-lg shadow-lg">
           <div className="flex items-center space-x-3 mb-4">
             <FaLink size={30} />
-            <h3 className="text-lg font-semibold">Get Block Hash</h3>
+            <h3 className="text-lg font-semibold">Get Block Hash (by Height)</h3>
           </div>
           <p className="text-sm text-gray-300 mb-2">
             Retrieve the block hash for a given block height.
           </p>
+          
+          {/* Input Field */}
           <input
             type="number"
             className="w-full bg-gray-700 border border-gray-600 rounded-md px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-yellow-500 mb-4"
@@ -137,6 +156,8 @@ const BlockchainInfo: React.FC<BlockchainInfoProps> = ({ onBack }) => {
             value={blockHeight}
             onChange={(e) => setBlockHeight(e.target.value)}
           />
+          
+          {/* Button */}
           <button
             onClick={handleGetBlockHash}
             disabled={!blockHeight}
@@ -144,7 +165,15 @@ const BlockchainInfo: React.FC<BlockchainInfoProps> = ({ onBack }) => {
           >
             Get Block Hash
           </button>
+
+          {/* Display Block Hash */}
+          {blockHash && (
+            <p className="bg-gray-700 text-white px-3 py-2 rounded-md text-sm mt-3 break-words">
+              {blockHash}
+            </p>
+          )}
         </div>
+
 
         {/* Card: Get Block (by height) */}
         <div className="bg-gray-800 p-4 rounded-lg shadow-lg">
@@ -152,16 +181,19 @@ const BlockchainInfo: React.FC<BlockchainInfoProps> = ({ onBack }) => {
             <FaCube size={30} />
             <h3 className="text-lg font-semibold">Get Block (by Height)</h3>
           </div>
+          <p className="text-sm text-gray-300 mb-2">
+          Retrieve the block information for a given block height.
+          </p>
           <input
             type="number"
             className="w-full bg-gray-700 border border-gray-600 rounded-md px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-yellow-500 mb-4"
             placeholder="Enter block height"
-            value={blockHeight}
-            onChange={(e) => setBlockHeight(e.target.value)}
+            value={blockHeight2}
+            onChange={(e) => setBlockHeight2(e.target.value)}
           />
           <button
             onClick={handleGetBlock}
-            disabled={!blockHeight}
+            disabled={!blockHeight2}
             className="bg-yellow-500 hover:bg-yellow-600 text-gray-900 px-4 py-2 rounded-md transition-colors disabled:opacity-50"
           >
             Get Block
