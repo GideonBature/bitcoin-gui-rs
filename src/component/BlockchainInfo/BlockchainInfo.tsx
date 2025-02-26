@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { invoke } from "@tauri-apps/api/core";
 import {
   FaCube,
   FaLink,
@@ -15,14 +16,28 @@ const BlockchainInfo: React.FC<BlockchainInfoProps> = ({ onBack }) => {
   // State for the forms/inputs that require user input
   const [blockHeight, setBlockHeight] = useState("");
   const [address, setAddress] = useState("");
+  const [blockCount, setBlockCount] = useState<number | null>(null);
+  const [bestBlockHash, setBestBlockHash] = useState<string | null>(null);
 
   // Example handlers
-  const handleGetBlockCount = () => {
-    console.log("Get block count");
+  const handleGetBlockCount = async () => {
+    // console.log("Get block count");
+    try {
+      const count: number = await invoke("get_block_count");
+      setBlockCount(count);
+    } catch (error) {
+      console.error("Error fetching block count: ", error);
+    }
   };
 
-  const handleGetBestBlockHash = () => {
-    console.log("Get best block hash");
+  const handleGetBestBlockHash = async () => {
+    // console.log("Get best block hash");
+    try {
+      const hash: string = await invoke("get_best_block_hash");
+      setBestBlockHash(hash);
+    } catch (error) {
+      console.error("Error fetching best block hash: ", error)
+    }
   };
 
   const handleGetBlockHash = () => {
@@ -72,6 +87,7 @@ const BlockchainInfo: React.FC<BlockchainInfoProps> = ({ onBack }) => {
           >
             Get Block Count
           </button>
+          <p>{blockCount}</p>
         </div>
 
         {/* Card: Get Best Block Hash */}
