@@ -3,9 +3,10 @@ import { FaBitcoin, FaWallet, FaNetworkWired, FaCogs } from "react-icons/fa";
 
 interface DashboardProps {
   onBlockchainInfoClick: () => void;
+  onWalletActionsClick?: () => void;
 }
 
-const Dashboard: React.FC<DashboardProps> = ({ onBlockchainInfoClick }) => {
+const Dashboard: React.FC<DashboardProps> = ({ onBlockchainInfoClick, onWalletActionsClick }) => {
   const sections = [
     {
       title: "Blockchain Information",
@@ -17,6 +18,7 @@ const Dashboard: React.FC<DashboardProps> = ({ onBlockchainInfoClick }) => {
       title: "Wallet Actions",
       icon: <FaWallet size={40} />,
       bg: "bg-blue-500",
+      onClick: onWalletActionsClick,
     },
     {
       title: "Network Management",
