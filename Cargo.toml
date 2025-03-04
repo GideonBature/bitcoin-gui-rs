@@ -1,8 +1,7 @@
 [workspace]
 members = [
     "bitcoin-gui/src-tauri",
-    "bitcoin-node",
-    "bitcoin-wallet",
+    "bitcoin-ipc",
 ]
 
 [workspace.dependencies]

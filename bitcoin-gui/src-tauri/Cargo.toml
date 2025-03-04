@@ -16,6 +16,7 @@ crate-type = ["staticlib", "cdylib", "rlib"]
 
 [build-dependencies]
 tauri-build = { version = "2", features = [] }
+capnpc = "0.19.0"
 
 [dependencies]
 tauri = { version = "2", features = [] }
@@ -24,3 +25,7 @@ serde = { version = "1", features = ["derive"] }
 serde_json = "1"
 bitcoincore-rpc = "0.19.0"
 bitcoin = "0.32.5"
+capnp = "0.19.3"
+capnp-rpc = "0.19.0"
+tokio = { version = "1.37.0", features = ["rt-multi-thread", "net", "process", "full"] }
+tokio-util = { version = "0.7.10", features = ["full"] }
