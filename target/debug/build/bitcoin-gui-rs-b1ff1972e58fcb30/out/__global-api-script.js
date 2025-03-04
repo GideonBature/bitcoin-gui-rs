@@ -1,1 +1,0 @@
-["/Users/bene/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/tauri-plugin-opener-2.2.6/api-iife.js"]
