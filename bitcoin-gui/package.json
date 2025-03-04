@@ -1,5 +1,5 @@
 {
-  "name": "bitcoin-gui-rs",
+  "name": "bitcoin-gui",
   "private": true,
   "version": "0.1.0",
   "type": "module",
@@ -21,7 +21,7 @@
   },
   "devDependencies": {
     "@tauri-apps/cli": "^2",
-    "@types/react": "^18.3.1",
+    "@types/react": "^18.3.18",
     "@types/react-dom": "^18.3.1",
     "@vitejs/plugin-react": "^4.3.4",
     "autoprefixer": "^10.4.20",

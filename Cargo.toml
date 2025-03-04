@@ -4,3 +4,8 @@ members = [
     "bitcoin-node",
     "bitcoin-wallet",
 ]
+
+[workspace.dependencies]
+serde_json = "1.0.140"
+serde = { version = "1", features = ["derive"] }
+tokio = { version = "1", features = ["full"] }
