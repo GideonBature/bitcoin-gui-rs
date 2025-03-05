@@ -33,6 +33,20 @@ pub async fn query_chain_height(
         .get_context()?
         .set_thread(thread_client.clone());
     let new_chain = new_chain_request.send().promise.await?;
-    println!("received chain response: {:?}", new_chain.get()?);
+    println!("received chain response: {:?}", new_chain.get()?.get_result());
     Ok(())
+}
+
+pub async fn query_chain_block_height(
+    chain_client: &chain_capnp::chain::Client,
+    thread_client: &proxy_capnp::thread::Client,
+) -> Result<i32, Box<dyn std::error::Error>> {
+    let mut new_chain_request = chain_client.get_height_request();
+    new_chain_request
+        .get()
+        .get_context()?
+        .set_thread(thread_client.clone());
+    let response = new_chain_request.send().promise.await?;
+    println!("received chain response: {:?}", response.get()?);
+    Ok(response.get()?.get_result())
 }

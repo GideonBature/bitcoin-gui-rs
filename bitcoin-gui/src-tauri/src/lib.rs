@@ -32,33 +32,74 @@ pub mod blockchain_info;
 pub mod structs;
 pub mod wallet_actions;
 
-use crate::structs::*;
+// use crate::structs::*;
+use std::path::Path;
+use structs::CapnpRpcClient;
+
+// use crate::wallet_actions::*;
 use crate::blockchain_info::*;
-use crate::wallet_actions::*;
 
 use std::sync::Mutex;
-use bitcoincore_rpc::{Auth, Client};
+// use futures_util::lock::Mutex;
+// use tauri::async_runtime::Mutex;
+// use tokio::sync::Mutex;
+// use bitcoincore_rpc::{Auth, Client};
+
+pub struct CapnpClients {
+    pub init_client: init_capnp::init::Client,
+    pub chain_client: chain_capnp::chain::Client,
+    pub node_client: node_capnp::node::Client,
+    pub wallet_loader: wallet_capnp::wallet_loader::Client,
+    pub thread_client: proxy_capnp::thread::Client,
+}
+
+// Initialize Cap'n Proto clients during application startup
+async fn initialize_clients(socket_path: &str) -> Result<CapnpClients, String> {
+    // Set up connection to Bitcoin Core's Cap'n Proto interface
+    let (init_client, thread_client) = init::setup_connection(Path::new(socket_path)).await.map_err(|e| format!("Failed to create chain client: {}", e))?;
+
+    // Create Chain Client
+    let chain_client = chain::create_chain_client(&init_client, &thread_client).await.map_err(|e| format!("Failed to create chain client: {}", e))?;
+    
+    // Create Node Client
+    let node_client = node::create_node_client(&init_client, &thread_client).await.map_err(|e| format!("Failed to create node client: {}", e))?;
+    
+    // Create Wallet Loader
+    let wallet_loader = wallet::create_wallet_loader_client(&node_client, &thread_client).await.map_err(|e| format!("Failed to create wallet loader: {}", e))?;
+    
+    Ok(CapnpClients {
+        init_client,
+        chain_client,
+        node_client,
+        wallet_loader,
+        thread_client,
+    })
+}
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
-    let rpc_url = "http://127.0.0.1:18443"; // Replace with your RPC URL
-    let rpc_auth = Auth::UserPass("bene".to_string(), "bene".to_string()); // Replace with your RPC credentials
-    let client = Client::new(rpc_url, rpc_auth).expect("Failed to connect to Bitcoin Core");
-    println!("Client: {:?}", client);
+    // let rpc_url = "http://127.0.0.1:18443"; // Replace with your RPC URL
+    // let rpc_auth = Auth::UserPass("bene".to_string(), "bene".to_string()); // Replace with your RPC credentials
+    // let client = Client::new(rpc_url, rpc_auth).expect("Failed to connect to Bitcoin Core");
+    // println!("Client: {:?}", client);
+    let socket_path = "/path/to/bitcoin-core/socket";
+    let runtime = tokio::runtime::Runtime::new().unwrap();
+    let clients = runtime.block_on(initialize_clients(socket_path)).expect("Failed to initialize Cap'n Proto clients");
 
     tauri::Builder::default()
-        .manage(RpcClient(Mutex::new(client))) // Store the client in Tauri state
+        .manage(CapnpRpcClient(Mutex::new(clients))) // Store the client in Tauri state
         .invoke_handler(tauri::generate_handler![
             greet,
-            get_block_count,
-            get_best_block_hash,
-            get_block_hash,
-            get_block,
-            get_raw_mempool,
-            generate_to_address,
-            get_uptime,
-            create_wallet,
-            load_wallet,
+            // query_chain_height,
+            // query_chain_best_hash,
+            // get_best_block_hash,
+            // get_block_hash,
+            // get_block,
+            // get_raw_mempool,
+            // generate_to_address,
+            // get_uptime,
+            // create_wallet,
+            // load_wallet,
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
