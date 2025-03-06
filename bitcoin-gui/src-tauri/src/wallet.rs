@@ -19,3 +19,18 @@ pub async fn create_wallet_loader_client(
     );
     Ok(cwl_response.get()?.get_result()?)
 }
+
+// pub async fn query_wallet_address(
+//     wallet_client: &wallet_capnp::wallet::Client,
+//     thread_client: &proxy_capnp::thread::Client,
+// ) -> Result<(), Box<dyn std::error::Error>> {
+//     let mut new_chain_request = wallet_client.get_addresses_request();
+//     new_chain_request
+//         .get()
+//         .get_context()?
+//         .set_thread(thread_client.clone());
+//     let new_chain = new_chain_request.send().promise.await?;
+//     let response = new_chain.get()?.get_result()?;
+//     println!("received chain response: {:?}", new_chain.get()?.get_result());
+//     Ok(response)
+// }

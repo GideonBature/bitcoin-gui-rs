@@ -50,3 +50,18 @@ pub async fn query_chain_block_height(
     println!("received chain response: {:?}", response.get()?);
     Ok(response.get()?.get_result())
 }
+
+pub async fn query_chain_best_block_hash(
+    chain_client: &chain_capnp::chain::Client,
+    thread_client: &proxy_capnp::thread::Client,
+) -> Result<String, Box<dyn std::error::Error>> {
+    let mut new_chain_request = chain_client.get_block_hash_request();
+    new_chain_request
+        .get()
+        .get_context()?
+        .set_thread(thread_client.clone());
+    let response = new_chain_request.send().promise.await?;
+    println!("received chain response: {:?}", response.get()?);
+    let bytes = response.get()?.get_result()?;
+    Ok(String::from_utf8(bytes.to_vec())?)
+}

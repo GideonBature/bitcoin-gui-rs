@@ -28,9 +28,6 @@ const BlockchainInfo: React.FC<BlockchainInfoProps> = ({ onBack }) => {
   const [generatedHashes, setGeneratedHashes] = useState<string[]>([]);
   const [error, setError] = useState('');
 
-  const [rpcData, setRpcData] = useState("");
-  const [method, setMethod] = useState("");
-
   // Utility function
   const formatUptime = (seconds: any) => {
     const days = Math.floor(seconds / 86400);
@@ -77,16 +74,6 @@ const BlockchainInfo: React.FC<BlockchainInfoProps> = ({ onBack }) => {
     try {
       const block: any = await invoke("get_block", { height: parseInt(blockHeight2) });
       setBlockData(block);
-    } catch (error) {
-      console.error("Error fetching block: ", error);
-    }
-  };
-  
-  const handleSendrpc = async () => {
-    // console.log("Get block for height:", blockHeight);
-    try {
-      const response: any = await invoke("send_rpc", { method });
-      setRpcData(response);
     } catch (error) {
       console.error("Error fetching block: ", error);
     }
@@ -352,53 +339,6 @@ const BlockchainInfo: React.FC<BlockchainInfoProps> = ({ onBack }) => {
                 {generatedHashes.map((hash, index) => (
                   <li key={index} className="text-sm">{hash}</li>
                 ))}
-              </ul>
-            </div>
-          )}
-
-          {/* Error Message */}
-          {error && (
-            <div className="mt-4 p-3 bg-red-700 rounded-md text-white">
-              <h4 className="font-semibold">Error:</h4>
-              <p className="text-sm">{error}</p>
-            </div>
-          )}
-        </div>
-        
-        {/* Card: Send to RPC */}
-        <div className="bg-gray-800 p-4 rounded-lg shadow-lg">
-          <div className="flex items-center space-x-3 mb-4">
-            <FaBolt size={30} />
-            <h3 className="text-lg font-semibold">Send to RPC</h3>
-          </div>
-          <p className="text-sm text-gray-300 mb-2">
-            Send to RPC.
-          </p>
-
-          {/* Method Input */}
-          <input
-            type="text"
-            className="w-full bg-gray-700 border border-gray-600 rounded-md px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-yellow-500 mb-4"
-            placeholder="Enter Bitcoin address"
-            value={method}
-            onChange={(e) => setMethod(e.target.value)}
-          />
-
-          {/* Send RPC Button */}
-          <button
-            onClick={handleSendrpc}
-            disabled={!method}
-            className="bg-yellow-500 hover:bg-yellow-600 text-gray-900 px-4 py-2 rounded-md transition-colors disabled:opacity-50"
-          >
-            Send RPC Method
-          </button>
-
-          {/* Result Display */}
-          {rpcData.length > 0 && (
-            <div className="mt-4 p-3 bg-gray-700 rounded-md text-green-400">
-              <h4 className="font-semibold">Generated Block Hashes:</h4>
-              <ul>
-                {rpcData}
               </ul>
             </div>
           )}
