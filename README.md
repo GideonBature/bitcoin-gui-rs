@@ -24,7 +24,7 @@ Ensure you have the following dependencies installed:
 
 - **System Dependencies (Linux, macOS, Windows)** - [System Dependencies](https://v2.tauri.app/start/prerequisites/#system-dependencies)
 - **Rust** – [Rust](https://v2.tauri.app/start/prerequisites/#rust)
-- **Bitcoin Core Setup (multiprocess enabled)** – [blocktalk](https://github.com/pseudoramdom/blocktalk?tab=readme-ov-file#setup-guide) or [bitcoin multiprocess setup](https://github.com/ryanofsky/bitcoin/blob/pr/ipc/doc/multiprocess.md).
+- **Bitcoin Core Build (with multiprocess enabled)** – [blocktalk](https://github.com/pseudoramdom/blocktalk?tab=readme-ov-file#setup-guide) or [bitcoin multiprocess setup](https://github.com/ryanofsky/bitcoin/blob/pr/ipc/doc/multiprocess.md).
 
 ## Setting up the Development Environment
 

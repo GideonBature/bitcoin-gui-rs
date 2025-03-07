@@ -91,8 +91,8 @@ pub fn run() {
         .invoke_handler(tauri::generate_handler![
             greet,
             get_block_count,
-            get_best_block_hash,
-            // get_block_hash,
+            get_block_hash,
+            // get_best_block_hash,
             // get_block,
             // get_raw_mempool,
             // generate_to_address,
