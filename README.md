@@ -69,6 +69,9 @@ cd bitcoin-gui-rs/bitcoin-gui
 npm install  # or yarn install
 ```
 3.  Go to [lib.rs](https://github.com/GideonBature/bitcoin-gui-rs/blob/main/bitcoin-gui/src-tauri/src/lib.rs) on line 85, add the path to the socket file created by running bitcoin-node in regtest with multiprocess.
+```rust
+let socket_path = "/path/to/bitcoin-core/socket";
+```
 
 4. Run the application:
 ```sh
