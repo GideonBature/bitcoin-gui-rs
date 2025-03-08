@@ -12,6 +12,8 @@ This template should help get you started developing with Tauri, React and Types
 
 `bitcoin-gui-rs` is a Proof of Concept (POC) for a standalone GUI application that interacts with Bitcoin Core using a Rust-based GUI framework (Tauri). Bitcoin Core's multiprocess feature separates its components into different executables (`bitcoin-node`, `bitcoin-wallet`, `bitcoin-gui`), and each of them can be run as different processes, with the `bitcoin-node` connected to the bitcoin network and the `bitcoin-wallet` and `bitcoin-gui` connected to the `bitcoin-node` through a socket pair, using an IPC for communication between them everything through a capnp proton, but in this POC, the GUI is treated as an independent binary (`bitcoin-node`) that communicates with Bitcoin Core via a Rust IPC interface.
 
+You can check more about Bitcoin Multiprocess from this [document](https://github.com/ryanofsky/bitcoin/blob/pr/ipc/doc/design/multiprocess.md) by ryanofsky. This work was heavily inspired by His work.
+
 ## Features
 - Standalone GUI built with Rust (Tauri).
 - Communicates with Bitcoin Core through an IPC interface.
@@ -72,8 +74,19 @@ npm install  # or yarn install
 ```sh
 npm run tauri dev
 ```
+- The bitcoin-gui will open with a dashboard as shown below:
+![Bitcoin GUI Dashboard](./gui-images/Rust%20GUI%20Dashboard.png)
+For now only the some of the Blockchain functions have been implemented, others will still be added.
 
+- To check for some Blockchain Information, simply click on `Blockchain Information` button and you will be met with the `Bitcoin Information Dashboard` as shown in the image below:
+![Blockchain Information Dashboard](./gui-images/Blockchain%20Information%20Dashboard.png)
 
+## Note
+This project is in no way production ready, with some functions both from the bitcoin-node and bitcoin-wallet that are yet to be implemented. For now it is still in active development.
+
+## Acknowledgements
+
+I found this [bitcoin-ipc tool](https://github.com/bitcoin-dev-tools/bitcoin-ipc) useful for generating a rust IPC interface for bitcoin core via rust-capnproto. Also, was inspired by pseudorandom's work on [blocktalk](https://github.com/pseudoramdom/blocktalk/tree/main).
 
 ## Contributing
 Feel free to open issues and pull requests to improve the project.
