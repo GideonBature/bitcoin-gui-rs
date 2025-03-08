@@ -30,45 +30,50 @@ Ensure you have the following dependencies installed:
 
 ### 1. Start Bitcoin Core in Regtest Mode
 
-Regtest (Regression Test Mode) allows local Bitcoin transactions without connecting to the main network.
+Regtest (Regression Test Mode) allows local Bitcoin connect which is great for quickly testing out the bitcoin blockchain without connecting to the mainnet nor testnet.
 
+1. Create a data directory
 ```sh
-bitcoind -regtest -daemon
+mkdir -p datadir
 ```
 
-To verify the node is running:
+2. Start the Bitcoin node in regtest
 ```sh
-bitcoin-cli -regtest getblockchaininfo
+./src/bitcoin-node \
+-regtest \
+-datadir=$PWD/datadir \
+-server=0 \
+-port=19444 \
+-connect=127.0.0.1:18444 \
+-ipcbind=unix \
+-debug=ipc
 ```
 
-### 2. Create a New Wallet
-```sh
-bitcoin-cli -regtest createwallet "test_wallet"
-```
+## Usage
 
-### 3. Generate Initial Blocks
-Regtest does not have miners by default, so you need to mine some blocks:
-```sh
-bitcoin-cli -regtest generatetoaddress 101 $(bitcoin-cli -regtest getnewaddress)
-```
+### Run the Tauri Application
 
-### 4. Run the Tauri Application
-
-Clone this repository and navigate to the project directory:
+1. Clone this repository and navigate to the project directory:
 ```sh
-git clone https://github.com/yourusername/bitcoin-gui-rs.git
+# clone the repository
+git clone https://github.com/GideonBature/bitcoin-gui-rs.git
+
+# move into the project directory
 cd bitcoin-gui-rs/bitcoin-gui
 ```
 
-Install dependencies:
+2. Install dependencies:
 ```sh
 npm install  # or yarn install
 ```
+3.  Go to [lib.rs](https://github.com/GideonBature/bitcoin-gui-rs/blob/main/bitcoin-gui/src-tauri/src/lib.rs) on line 85, add the path to the socket file created by running bitcoin-node in regtest with multiprocess.
 
-Run the application:
+4. Run the application:
 ```sh
 npm run tauri dev
 ```
+
+
 
 ## Contributing
 Feel free to open issues and pull requests to improve the project.
