@@ -1,15 +1,10 @@
-use crate::{chain::*, structs::*};
-use tokio::runtime::Runtime;
-
-use tauri::State;
-use bitcoin::{Block, Address};
-use bitcoin::address::NetworkUnchecked;
-use bitcoincore_rpc::RpcApi;
-
 use crate::{
-    chain::query_chain_block_height,
+    chain::*,
     structs::CapnpRpcClient,
 };
+use tauri::State;
+use bitcoin::Block;
+use tokio::runtime::Runtime;
 
 
 #[tauri::command]
@@ -36,7 +31,7 @@ pub fn get_block_hash(clients: State<CapnpRpcClient>, height: i32) -> Result<Str
 }
 
 #[tauri::command]
-pub fn get_block(clients: State<CapnpRpcClient>, node_tip_hash: &bitcoin::BlockHash, height: i32) -> Result<Block, String> {
+pub fn get_block(clients: State<CapnpRpcClient>, node_tip_hash: bitcoin::BlockHash, height: i32) -> Result<Block, String> {
     let client = clients.0.lock().map_err(|_| "Failed to acquire CapnpRpcClient lock".to_string())?;
     let runtime = Runtime::new().map_err(|e| e.to_string())?;
 

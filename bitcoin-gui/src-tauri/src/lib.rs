@@ -89,9 +89,9 @@ pub fn run() {
     tauri::Builder::default()
         .manage(CapnpRpcClient(Mutex::new(clients))) // Store the client in Tauri state
         .invoke_handler(tauri::generate_handler![
-            greet,
             get_block_count,
             get_block_hash,
+            get_block,
             // get_best_block_hash,
             // get_block,
             // get_raw_mempool,

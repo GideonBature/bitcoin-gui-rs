@@ -53,21 +53,6 @@ pub async fn query_chain_block_height(
     Ok(response.get()?.get_result())
 }
 
-// pub async fn query_chain_best_block_hash(
-//     chain_client: &chain_capnp::chain::Client,
-//     thread_client: &proxy_capnp::thread::Client,
-// ) -> Result<String, Box<dyn std::error::Error>> {
-//     let mut new_chain_request = chain_client.get_block_hash_request();
-//     new_chain_request
-//         .get()
-//         .get_context()?
-//         .set_thread(thread_client.clone());
-//     let response = new_chain_request.send().promise.await?;
-//     println!("received chain response: {:?}", response.get()?);
-//     let bytes = response.get()?.get_result()?;
-//     Ok(String::from_utf8(bytes.to_vec())?)
-// }
-
 pub async fn query_chain_block_hash_at_height(
     chain_client: &chain_capnp::chain::Client,
     thread_client: &proxy_capnp::thread::Client,
@@ -96,7 +81,7 @@ pub async fn query_chain_block_hash_at_height(
 pub async fn query_chain_block(
     chain_client: &chain_capnp::chain::Client,
     thread_client: &proxy_capnp::thread::Client,
-    node_tip_hash: &bitcoin::BlockHash,
+    node_tip_hash: bitcoin::BlockHash,
     height: i32
 ) -> Result<Block, Box<dyn std::error::Error>> {
     let mut new_chain_request = chain_client.find_ancestor_by_height_request();
@@ -114,7 +99,7 @@ pub async fn query_chain_block(
     println!("received chain response: {:?}", response.get()?);
     let bytes = response.get()?.get_ancestor()?.get_data()?;
 
-    let block= bitcoin::consensus::deserialize(&bytes)?;
+    let block= bitcoin::consensus::deserialize(bytes)?;
 
     Ok(block)
 }
