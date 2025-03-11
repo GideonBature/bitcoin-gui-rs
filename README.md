@@ -26,7 +26,35 @@ Ensure you have the following dependencies installed:
 
 - **System Dependencies (Linux, macOS, Windows)** - [System Dependencies](https://v2.tauri.app/start/prerequisites/#system-dependencies)
 - **Rust** – [Rust](https://v2.tauri.app/start/prerequisites/#rust)
-- **Bitcoin Core Build (with multiprocess enabled)** – [blocktalk](https://github.com/pseudoramdom/blocktalk?tab=readme-ov-file#setup-guide) or [bitcoin multiprocess setup](https://github.com/ryanofsky/bitcoin/blob/pr/ipc/doc/multiprocess.md).
+- Bitcoin Core Build (with multiprocess enabled)
+
+    ```sh
+    # Clone Bitcoin Core and checkout the PR
+    git clone https://github.com/bitcoin/bitcoin.git
+    cd bitcoin
+    git fetch origin pull/29409/head:pr29409
+    git checkout pr29409
+
+    # Build dependencies with multiprocess support
+    make -C depends HOST=aarch64-apple-darwin MULTIPROCESS=1 NO_QT=1
+
+    # Configure and build Bitcoin Core
+    export HOST_PLATFORM="aarch64-apple-darwin"
+
+    # Build (works for macOS)
+    cmake -B multiprocbuild/ \
+        --toolchain=depends/$HOST_PLATFORM/toolchain.cmake \
+        -DOPENSSL_ROOT_DIR=/opt/homebrew/opt/openssl@3 \
+        -DOPENSSL_CRYPTO_LIBRARY=/opt/homebrew/opt/openssl@3/lib/libcrypto.dylib \
+        -DOPENSSL_SSL_LIBRARY=/opt/homebrew/opt/openssl@3/lib/libssl.dylib \
+        -DOPENSSL_INCLUDE_DIR=/opt/homebrew/opt/openssl@3/include \
+        -DZLIB_ROOT=/opt/homebrew/opt/zlib \
+        -DZLIB_LIBRARY=/opt/homebrew/opt/zlib/lib/libz.dylib \
+        -DZLIB_INCLUDE_DIR=/opt/homebrew/opt/zlib/include
+
+    # Final build process
+    cmake --build multiprocbuild/ --parallel $(sysctl -n hw.logicalcpu)
+    ```
 
 ## Setting up the Development Environment
 
