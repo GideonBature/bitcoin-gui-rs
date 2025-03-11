@@ -24,9 +24,9 @@ You can check more about Bitcoin Multiprocess from this [document](https://githu
 
 Ensure you have the following dependencies installed:
 
-- **System Dependencies (Linux, macOS, Windows)** - [System Dependencies](https://v2.tauri.app/start/prerequisites/#system-dependencies)
-- **Rust** – [Rust](https://v2.tauri.app/start/prerequisites/#rust)
-- Bitcoin Core Build (with multiprocess enabled)
+1. **System Dependencies (Linux, macOS, Windows)** - [System Dependencies](https://v2.tauri.app/start/prerequisites/#system-dependencies)
+2. **Rust** – [Rust](https://v2.tauri.app/start/prerequisites/#rust)
+3. **Compile Bitcoin Core Build (with multiprocess enabled - PR #29409)**
 
     ```sh
     # Clone Bitcoin Core and checkout the PR
@@ -62,22 +62,29 @@ Ensure you have the following dependencies installed:
 
 Regtest (Regression Test Mode) allows local Bitcoin connect which is great for quickly testing out the bitcoin blockchain without connecting to the mainnet nor testnet.
 
-1. Create a data directory
-```sh
-mkdir -p datadir
-```
+- **Run two regtest nodes, one `bitcoind` and one `bitcoin-node`**
 
-2. Start the Bitcoin node in regtest
-```sh
-./src/bitcoin-node \
--regtest \
--datadir=$PWD/datadir \
--server=0 \
--port=19444 \
--connect=127.0.0.1:18444 \
--ipcbind=unix \
--debug=ipc
-```
+    Inorder to have a readily available funded wallet, we'll use a `bitcoind` with a regular Bitcoin Core wallet on it, connected to the `bitcoin-node` node.
+
+    Start the `bitcoind` node, create a wallet on it (I'll call it bene), and fund the wallet by mining some blocks:
+
+    ```sh
+    mkdir regular_bitcoind_wallet
+
+    ./multiprocbuild/src/bitcoind -regtest -datadir=$PWD/regular_bitcoind_wallet -daemon
+
+    ./multiprocbuild/src/bitcoin-cli -regtest -datadir=$PWD/regular_bitcoind_wallet createwallet bene
+
+    ./multiprocbuild/src/bitcoin-cli -regtest -datadir=$PWD/regular_bitcoind_wallet -rpcwallet=bene generatetoaddress 110 $(./multiprocbuild/src/bitcoin-cli -regtest -datadir=$PWD/regular_bitcoind_wallet -rpcwallet=bene getnewaddress)
+    ```
+
+    Now start the `bitcoin-node` node in a different datadir, connected to the first node, with no JSONRPC server:
+    ```sh
+    mkdir datadir_bitcoin-node
+
+    ./multiprocbuild/src/bitcoin-node -regtest -datadir=$PWD/datadir_bdk_wallet -server=0 -port=19444 -connect=127.0.0.1:18444 -ipcbind=unix -debug=ipc
+    ```
+    Take note of the *`-ipcbind=unix`* to create the interface and optional *`-debug=ipc`* to observe IPC messages.
 
 ## Usage
 
