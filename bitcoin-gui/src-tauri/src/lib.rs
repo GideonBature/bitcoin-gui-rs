@@ -34,7 +34,6 @@ pub mod wallet_actions;
 
 // use crate::structs::*;
 use std::path::Path;
-use bitcoincore_rpc::jsonrpc::client;
 use structs::CapnpRpcClient;
 
 // use crate::wallet_actions::*;
