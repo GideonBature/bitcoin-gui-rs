@@ -77,6 +77,10 @@ Regtest (Regression Test Mode) allows local Bitcoin connect which is great for q
 
     ./multiprocbuild/src/bitcoin-cli -regtest -datadir=$PWD/regular_bitcoind_wallet -rpcwallet=bene generatetoaddress 110 $(./multiprocbuild/src/bitcoin-cli -regtest -datadir=$PWD/regular_bitcoind_wallet -rpcwallet=bene getnewaddress)
     ```
+    Alternatively, you can just start the `bitcoind` without a wallet using the command:
+    ```sh
+    bitcoind --regtest
+    ```
 
     Now start the `bitcoin-node` node in a different datadir, connected to the first node, with no JSONRPC server:
     ```sh
@@ -124,7 +128,7 @@ This project is in no way production ready, with some functions both from the bi
 
 ## Acknowledgements
 
-I found this [bitcoin-ipc tool](https://github.com/bitcoin-dev-tools/bitcoin-ipc) useful for generating a rust IPC interface for bitcoin core via rust-capnproto. Also, was inspired by pseudorandom's work on [blocktalk](https://github.com/pseudoramdom/blocktalk/tree/main).
+I found this [bitcoin-ipc tool](https://github.com/bitcoin-dev-tools/bitcoin-ipc) useful for generating a rust IPC interface for bitcoin core via rust-capnproto. Also, was inspired by pseudorandom's work on [BlockConnect](https://github.com/pseudoramdom/BlockConnect/tree/main).
 
 ## Contributing
 Feel free to open issues and pull requests to improve the project.

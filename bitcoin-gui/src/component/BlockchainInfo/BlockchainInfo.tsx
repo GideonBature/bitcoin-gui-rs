@@ -15,10 +15,10 @@ interface BlockchainInfoProps {
 const BlockchainInfo: React.FC<BlockchainInfoProps> = ({ onBack }) => {
   // State for the forms/inputs that require user input
   const [blockHeight, setBlockHeight] = useState("");
+  const [bestBlockHash, setBestBlockHash] = useState<string | null>(null);
   const [blockHeight2, setBlockHeight2] = useState("");
   const [address, setAddress] = useState("");
   const [blockCount, setBlockCount] = useState<number | null>(null);
-  const [bestBlockHash, setBestBlockHash] = useState<string | null>(null);
   const [blockHash, setBlockHash] = useState<string | null>(null);
   const [blockData, setBlockData] = useState<any | null>(null);
   const [mempoolData, setMempoolData] = useState<string[] | null>(null);
@@ -42,7 +42,7 @@ const BlockchainInfo: React.FC<BlockchainInfoProps> = ({ onBack }) => {
   const handleGetBlockCount = async () => {
     // console.log("Get block count");
     try {
-      const count: number = await invoke("get_block_count");
+      const count: number = await invoke("get_chain_tip_height");
       setBlockCount(count);
     } catch (error) {
       console.error("Error fetching block count: ", error);
@@ -52,7 +52,7 @@ const BlockchainInfo: React.FC<BlockchainInfoProps> = ({ onBack }) => {
   const handleGetBestBlockHash = async () => {
     // console.log("Get best block hash");
     try {
-      const hash: string = await invoke("get_best_block_hash");
+      const hash: string = await invoke("get_chain_tip_hash");
       setBestBlockHash(hash);
     } catch (error) {
       console.error("Error fetching best block hash: ", error)
@@ -62,7 +62,7 @@ const BlockchainInfo: React.FC<BlockchainInfoProps> = ({ onBack }) => {
   const handleGetBlockHash = async () => {
     // console.log("Get block hash for height:", blockHeight);
     try {
-      const hash: string = await invoke("get_block_hash", { height: parseInt(blockHeight) });
+      const hash: string = await invoke("get_chain_hash_by_height", { height: parseInt(blockHeight) });
       setBlockHash(hash);
     } catch (error) {
       console.error("Error fetching block hash: ", error);
@@ -72,8 +72,12 @@ const BlockchainInfo: React.FC<BlockchainInfoProps> = ({ onBack }) => {
   const handleGetBlock = async () => {
     // console.log("Get block for height:", blockHeight);
     try {
-      const block: any = await invoke("get_block", { height: parseInt(blockHeight2) });
-      setBlockData(block);
+      const blockString: string = await invoke("get_block_by_height", { height: parseInt(blockHeight2) });
+
+      const blockObject = JSON.parse(blockString);
+
+      setBlockData(blockObject);
+      
     } catch (error) {
       console.error("Error fetching block: ", error);
     }
@@ -134,6 +138,7 @@ const BlockchainInfo: React.FC<BlockchainInfoProps> = ({ onBack }) => {
       <h2 className="text-2xl font-bold mb-4">Blockchain Information</h2>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      
         {/* Card: Get Block Count */}
         <div className="bg-gray-800 p-4 rounded-lg shadow-lg">
           <div className="flex items-center space-x-3 mb-4">

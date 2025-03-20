@@ -1,0 +1,25 @@
+[package]
+name = "blockconnect"
+version = "0.1.0"
+edition = "2024"
+build = "build.rs"
+
+[lib]
+name = "blockconnect"
+path = "src/lib.rs"
+
+[[example]]
+name = "chain_query"
+path = "example/chain_query.rs"
+
+[dependencies]
+capnp = "0.20.3"
+capnp-rpc = "0.20.3"
+tokio = { version = "1.43.0", features = ["full"] }
+tokio-util = { version = "0.7.13", features = ["compat"] }
+async-trait = "0.1"
+bitcoin = "0.32.5"
+log = "0.4.25"
+
+[build-dependencies]
+capnpc = "0.20.1"

@@ -1,6 +1,10 @@
 [workspace]
 members = [
     "bitcoin-gui/src-tauri",
+    "blockconnect",
+]
+default-members = [
+    "blockconnect",
 ]
 
 [workspace.dependencies]
