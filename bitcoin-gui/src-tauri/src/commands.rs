@@ -1,7 +1,13 @@
+extern crate dotenv;
+use dotenv::dotenv;
+use std::env;
+
 use blockconnect;
 
 #[tauri::command]
 pub async fn get_chain_tip_height() -> Result<i32, String> {
+    dotenv().ok();
+
     let result = tauri::async_runtime::spawn_blocking(|| {
         let rt = tokio::runtime::Builder::new_current_thread()
             .enable_all()
@@ -11,8 +17,10 @@ pub async fn get_chain_tip_height() -> Result<i32, String> {
         let local = tokio::task::LocalSet::new();
 
         local.block_on(&rt, async {
-            let socket_path = "/Users/bene/Desktop/bitcoin/datadir_bdk_wallet/regtest/node.sock";
-            blockconnect::query_chain_tip_height(socket_path).await
+            // let socket_path = "/Users/bene/Desktop/bitcoin/datadir_bdk_wallet/regtest/node.sock";
+            let socket_path = env::var("SOCKET_PATH")
+                .map_err(|e| e.to_string())?;
+            blockconnect::query_chain_tip_height(&socket_path).await
         })  
     })
     .await
@@ -26,6 +34,8 @@ pub async fn get_chain_tip_height() -> Result<i32, String> {
 
 #[tauri::command]
 pub async fn get_chain_tip_hash() -> Result<String, String> {
+    dotenv().ok();
+
     let result = tauri::async_runtime::spawn_blocking(|| {
         let rt = tokio::runtime::Builder::new_current_thread()
             .enable_all()
@@ -35,8 +45,9 @@ pub async fn get_chain_tip_hash() -> Result<String, String> {
         let local = tokio::task::LocalSet::new();
 
         local.block_on(&rt, async {
-            let socket_path = "/Users/bene/Desktop/bitcoin/datadir_bdk_wallet/regtest/node.sock";
-            blockconnect::query_chain_tip_hash(socket_path).await
+            let socket_path = env::var("SOCKET_PATH")
+                .map_err(|e| e.to_string())?;
+            blockconnect::query_chain_tip_hash(&socket_path).await
         })  
     })
     .await
@@ -50,6 +61,8 @@ pub async fn get_chain_tip_hash() -> Result<String, String> {
 
 #[tauri::command]
 pub async fn get_chain_hash_by_height(height: i32) -> Result<String, String> {
+    dotenv().ok();
+
     let result = tauri::async_runtime::spawn_blocking(move || {
         let rt = tokio::runtime::Builder::new_current_thread()
             .enable_all()
@@ -59,8 +72,9 @@ pub async fn get_chain_hash_by_height(height: i32) -> Result<String, String> {
         let local = tokio::task::LocalSet::new();
 
         local.block_on(&rt, async {
-            let socket_path = "/Users/bene/Desktop/bitcoin/datadir_bdk_wallet/regtest/node.sock";
-            blockconnect::query_chain_hash_by_height(socket_path, height).await
+            let socket_path = env::var("SOCKET_PATH")
+                .map_err(|e| e.to_string())?;
+            blockconnect::query_chain_hash_by_height(&socket_path, height).await
         })  
     })
     .await
@@ -74,6 +88,8 @@ pub async fn get_chain_hash_by_height(height: i32) -> Result<String, String> {
 
 #[tauri::command]
 pub async fn get_block_by_height(height: i32) -> Result<String, String> {
+    dotenv().ok();
+    
     let result = tauri::async_runtime::spawn_blocking(move || {
         let rt = tokio::runtime::Builder::new_current_thread()
             .enable_all()
@@ -83,8 +99,9 @@ pub async fn get_block_by_height(height: i32) -> Result<String, String> {
         let local = tokio::task::LocalSet::new();
 
         local.block_on(&rt, async {
-            let socket_path = "/Users/bene/Desktop/bitcoin/datadir_bdk_wallet/regtest/node.sock";
-            blockconnect::query_chain_block_by_height(socket_path, height).await
+            let socket_path = env::var("SOCKET_PATH")
+                .map_err(|e| e.to_string())?;
+            blockconnect::query_chain_block_by_height(&socket_path, height).await
         })  
     })
     .await

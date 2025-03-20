@@ -35,6 +35,7 @@ async-trait = "0.1.87"
 thiserror = "2.0.12"
 futures = "0.3.31"
 blockconnect = { path = "../../blockconnect" }
+dotenv = "0.15.0"
 
 [lints.rust]
 unexpected_cfgs = { level = "warn", check-cfg = ['cfg(mobile)'] }

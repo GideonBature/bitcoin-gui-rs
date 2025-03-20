@@ -324,6 +324,7 @@ dependencies = [
  "capnp 0.19.8",
  "capnp-rpc 0.19.5",
  "capnpc 0.19.0",
+ "dotenv",
  "futures",
  "futures-util",
  "log",
@@ -448,6 +449,7 @@ dependencies = [
  "capnp 0.20.6",
  "capnp-rpc 0.20.3",
  "capnpc 0.20.1",
+ "dotenv",
  "log",
  "tokio",
  "tokio-util",
@@ -1004,6 +1006,12 @@ dependencies = [
  "quote",
  "syn 2.0.100",
 ]
+
+[[package]]
+name = "dotenv"
+version = "0.15.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "77c90badedccf4105eca100756a0b1289e191f6fcbdadd3cee1d2f614f97da8f"
 
 [[package]]
 name = "dpi"
