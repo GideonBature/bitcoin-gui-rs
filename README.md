@@ -107,9 +107,9 @@ cd bitcoin-gui-rs/bitcoin-gui
 ```sh
 npm install  # or yarn install
 ```
-3.  Go to [lib.rs](https://github.com/GideonBature/bitcoin-gui-rs/blob/main/bitcoin-gui/src-tauri/src/lib.rs) on line 85, add the path to the socket file created by running bitcoin-node in regtest with multiprocess.
+3.  Rename `.env.example` to `.env` and add the path to the socket file created by running bitcoin-node in regtest with multiprocess.
 ```rust
-let socket_path = "/path/to/bitcoin-core/socket";
+SOCKET_PATH="/path/to/bitcoin-core/socket/file.sock";
 ```
 
 4. Run the application:
@@ -121,14 +121,31 @@ npm run tauri dev
 For now only the some of the Blockchain functions have been implemented, others will still be added.
 
 - To check for some Blockchain Information, simply click on `Blockchain Information` button and you will be met with the `Bitcoin Information Dashboard` as shown in the image below:
-![Blockchain Information Dashboard](./gui-images/Blockchain%20Information%20Dashboard.png)
+
+    ![Blockchain Information Dashboard](./gui-images/Blockchain%20Information%20Dashboard.png)
+
+- To check for Blockchain Tip Block Count, simply click on `Get Block Count` button and you will get the `Chain Tip Block Count` as shown in the image below:
+
+    ![Blockchain Get Block Count](./gui-images/GetBlockCount.png)
+
+- To check for Blockchain Tip Block Hash, simply click on `Get Best Block Hash` button and you will get the `Chain Tip Block Hash` as shown in the image below:
+
+    ![Blockchain Get Block Hash](./gui-images/GetBlockHash.png)
+
+- To check for Blockchain Block Hash (by height), simply click on `Get Block Hash` button on the `Get Block Hash (by Height)` component and you will get the `Block Hash` of any block at a height as shown in the image below:
+
+    ![Blockchain Get Block Hash](./gui-images/GetBlockHash(byHeight).png)
+
+- To check for Blockchain Block Information (by height), simply click on `Get Block` button on the `Get Block (by Height)` component and you will get the `Block Information` of any block at a height as shown in the image below:
+
+    ![Blockchain Get Block Hash](./gui-images/GetBlockByHeight.png)
 
 ## Note
 This project is in no way production ready, with some functions both from the bitcoin-node and bitcoin-wallet that are yet to be implemented. For now it is still in active development.
 
 ## Acknowledgements
 
-I found this [bitcoin-ipc tool](https://github.com/bitcoin-dev-tools/bitcoin-ipc) useful for generating a rust IPC interface for bitcoin core via rust-capnproto. Also, was inspired by pseudorandom's work on [BlockConnect](https://github.com/pseudoramdom/BlockConnect/tree/main).
+I found this [bitcoin-ipc tool](https://github.com/bitcoin-dev-tools/bitcoin-ipc) useful for generating a rust IPC interface for bitcoin core via rust-capnproto. Also, was inspired by pseudorandom's work on [BlockTalk](https://github.com/pseudoramdom/BlockConnect/tree/main).
 
 ## Contributing
 Feel free to open issues and pull requests to improve the project.
